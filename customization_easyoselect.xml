@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><customization active="sketch6default">
+  <scheme id="sketch6default">
+    <remove path="menubar/file-menu"/>
+    <remove path="menubar/edit-menu"/>
+    <remove path="menubar/view-menu"/>
+    <remove path="menubar/insert-menu"/>
+    <remove path="menubar/atom-menu"/>
+    <remove path="menubar/bond-menu"/>
+    <remove path="menubar/structure-menu"/>
+    <remove path="menubar/calculation-menu"/>
+    <remove path="menubar/help-menu"/>
+    <remove path="menubar/tools-menu"/>
+    <remove path="toolbar/atoms"/>
+    <remove path="toolbar/tools"/>
+    <remove path="toolbar/templates"/>
+    <remove path="toolbar/chemical"/>
+    <remove path="toolbar/markush"/>
+    <modify path="toolbar/general/transfer" visible="false"/>
+    <modify path="toolbar/general/eraseMode" visible="false"/>
+    <modify path="toolbar/general/cut" visible="false"/>
+    <modify path="toolbar/general/copy" visible="false"/>
+    <modify path="toolbar/general/paste" visible="false"/>
+    <modify path="toolbar/general/undo" visible="false"/>
+    <modify path="toolbar/general/redo" visible="false"/>
+    <modify path="toolbar/general/checkStructure" visible="false"/>
+    <modify path="toolbar/general/zoomIn" visible="false"/>
+    <modify path="toolbar/general/zoomOut" visible="false"/>
+    <modify path="toolbar/general/zoomTool" visible="false"/>
+    <modify path="toolbar/general/helpContents" visible="false"/>
+    <remove path="toolbar/mytemplates"/>
+    <remove path="toolbar/edit3D"/>
+    <remove path="popup/bond/bond-type-menu"/>
+    <remove path="popup/bond/boldBond"/>
+    <remove path="popup/bond/hashedBond"/>
+    <remove path="popup/bond/bond-sep-1"/>
+    <remove path="popup/bond/bond-topology-menu"/>
+    <remove path="popup/bond/bond-reacting-center-menu"/>
+    <remove path="popup/bond/bondStereoSearch"/>
+    <remove path="popup/bond/bond-sep-2"/>
+    <remove path="popup/bond/bond-arrange-menu"/>
+    <remove path="popup/bond/bond-align-menu"/>
+    <remove path="popup/bond/bond-ligand-menu"/>
+    <remove path="popup/bond/bond-sep-3"/>
+    <remove path="popup/bond/cut"/>
+    <remove path="popup/bond/copy"/>
+    <remove path="popup/bond/copyAs"/>
+    <remove path="popup/bond/paste"/>
+    <remove path="popup/bond/delete"/>
+    <remove path="popup/bond/sep-1"/>
+    <remove path="popup/bond/fixStructure"/>
+    <remove path="popup/bond/createSGroup"/>
+    <remove path="popup/bond/editSGroup"/>
+    <remove path="popup/bond/ungroupSGroup"/>
+    <remove path="popup/bond/contractSGroup"/>
+    <remove path="popup/bond/expandSGroup"/>
+    <remove path="popup/bond/mergeBrackets"/>
+    <remove path="popup/bond/sep-2"/>
+    <remove path="popup/bond/structure-add-menu"/>
+    <remove path="popup/bond/structure-remove-menu"/>
+    <remove path="popup/bond/editData"/>
+    <remove path="popup/bond/sep-3"/>
+    <remove path="popup/bond/edit-transform-menu"/>
+    <remove path="popup/bond/format"/>
+    <remove path="popup/bond/addToMyTemplates"/>
+    <remove path="popup/bond/bond-sep-4"/>
+    <remove path="popup/bond/editBondProperties"/>
+  </scheme>
+</customization>
