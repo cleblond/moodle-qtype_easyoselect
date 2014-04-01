@@ -19,7 +19,7 @@
  *
  * @package    qtype
  * @subpackage easyoselect
- * @copyright  2011 The Open University
+ * @copyright  2014 onwards Carl LeBlond
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,115 +28,65 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/shortanswer/question.php');
 
-$generated_feedback="";
-
-/**
- * Represents a easyoselect question.
- *
- * @copyright  1999 onwards Martin Dougiamas {@link http://moodle.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class qtype_easyoselect_question extends qtype_shortanswer_question {
-	// all comparisons in easyoselect are case sensitive
-	public function compare_response_with_answer(array $response, question_answer $answer) {
-        global $generated_feedback, $DB;
+    // All comparisons in easyoselect are case sensitive.
+    public function compare_response_with_answer(array $response, question_answer $answer) {
+        global $DB;
 
-
-///var_dump($response);
-///var_dump($answer);
-$test = $DB->get_record('user', array('id'=>'1'));
-
-$order_important = $this->orderimportant;
-
-
-
-
-
-
-
-
-if (!array_key_exists('answer', $response) || is_null($response['answer'])) {
+        if (!array_key_exists('answer', $response) || is_null($response['answer'])) {
 
             return false;
         }
 
+        $cmlans = new SimpleXMLElement($answer->answer);
+        $cmlusr = new SimpleXMLElement($response['answer']);
+        $i = 0;
+        $arrowsusrall = "";
 
-$cmlans = new SimpleXMLElement($answer->answer);
-$cmlusr = new SimpleXMLElement($response['answer']);
-	$arrows_correct=0;
-	$i=0;
-	$arrowsusrall="";
+        // Check selected atoms.
+        $selectedans = explode(" ", $cmlans->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->isSelected);
+        $selectedansatomid = explode(" ",
+        $cmlans->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->atomID);
+        @$selectedansarray = array_combine($selectedansatomid, $selectedans);
 
+        $selectedusr = explode(" ", $cmlusr->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->isSelected);
+        $selectedusratomid = explode(" ",
+        $cmlusr->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->atomID);
+        @$selectedusrarray = array_combine($selectedusratomid, $selectedusr);
 
-///check selected atoms
-$selected_ans=explode(" ",$cmlans->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->isSelected);
-$selected_ans_atom_id=explode(" ",$cmlans->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->atomID);
-@$selected_ans_array = array_combine($selected_ans_atom_id,$selected_ans);
+        if ( $selectedansarray !== $selectedusrarray ) {
+            return 0;
+        }
 
+        // Check for MEFlow arrows selected.
 
-$selected_usr=explode(" ",$cmlusr->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->isSelected);
-//echo "value";
-//var_dump($selected_usr);
-$selected_usr_atom_id=explode(" ",$cmlusr->MDocument[0]->MChemicalStruct[0]->molecule[0]->atomArray[0]->attributes()->atomID);
-//echo "atom";
-//var_dump($selected_usr_atom_id);
-@$selected_usr_array = array_combine($selected_usr_atom_id,$selected_usr);
+        $meflowans = $cmlans->MDocument[0]->MEFlow;
+        $meflowusr = $cmlusr->MDocument[0]->MEFlow;
 
-//echo "ans_array=";
-//var_dump($selected_ans_array);
-//echo "<br/>usr_array=";
-//var_dump($selected_usr_array);
+        // Quick check to see if number of selction matches.
+        if (count($meflowans) !== count($meflowusr)) {
+            return 0;
+        }
 
+        $selmeflowans = '';
+        // More ehaustive check!
+        for ($i = 0; $i < count($meflowans); $i++) {
+            $selmeflowans = $selmeflowans.",".$meflowans[$i]->attributes()->isSelected;
+        }
 
-		if ( $selected_ans_array !== $selected_usr_array ) {
-//	    	echo 'order important - returned 1';
-		return 0;
-		}
+        $selmeflowusr = '';
+        for ($i = 0; $i < count($meflowusr); $i++) {
+            $selmeflowusr = $selmeflowusr.",".$meflowusr[$i]->attributes()->isSelected;
+        }
 
-
-
-
-////check for MEFlow arrows selected
-
-		$meflowans = $cmlans->MDocument[0]->MEFlow;
-		$meflowusr = $cmlusr->MDocument[0]->MEFlow;
-
-		///Quick check to see if number of selction matches
-		if(count($meflowans) !== count($meflowusr)){return 0;}
-
-		$selmeflowans='';
-		///more ehaustive check
-		for ($i=0; $i<count($meflowans); $i++){ 
-		$selmeflowans = $selmeflowans.",".$meflowans[$i]->attributes()->isSelected;
-//		echo "ans".$meflowans[$i]->attributes()->isSelected;	
-//		echo $meflowusr[$i]->attributes()->isSelected ."<br";	
-		//$meflowans[$i]->attributes()->isSelected = "false";
-		}
-
-		$selmeflowusr='';
-		for ($i=0; $i<count($meflowusr); $i++){ 
-		$selmeflowusr = $selmeflowusr.",".$meflowusr[$i]->attributes()->isSelected;
-//		echo "usr".$meflowusr[$i]->attributes()->isSelected;	
-//		echo $meflowusr[$i]->attributes()->isSelected ."<br";	
-		//$meflowans[$i]->attributes()->isSelected = "false";
-		}
-//		echo "usr".$selmeflowusr."<br>";
-//		echo "ans".$selmeflowans."<br>";
-
-		if ($selmeflowusr === $selmeflowans) {
-//	    	echo 'order important - returned 1';
-		return 1;
-		}
-		else{
-		return 0;
-		}
-
-
-
-
+        if ($selmeflowusr === $selmeflowans) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
-	
-	public function get_expected_data() {
+
+    public function get_expected_data() {
 
         return array('answer' => PARAM_RAW, 'easyoselect' => PARAM_RAW, 'mol' => PARAM_RAW);
     }
