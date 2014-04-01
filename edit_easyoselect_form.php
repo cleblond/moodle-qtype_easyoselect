@@ -47,18 +47,6 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
                 get_string('filloutoneanswer', 'qtype_easyoselect'));
         $mform->closeHeaderBefore('answersinstruct');
 
-        $easyoselectbuildstring = "\n<script LANGUAGE=\"JavaScript1.1\" SRC=\"../../marvin/marvin.js\"></script>
-        <script LANGUAGE=\"JavaScript1.1\">
-        msketch_name = \"MSketch\";
-        msketch_begin(\"../../marvin\", 650, 460);
-        msketch_param(\"menuconfig\", \"customization_mech_instructor.xml\");
-        msketch_param(\"background\", \"#ffffff\");
-        msketch_param(\"sketchCarbonVisibility\", \"off\");
-        msketch_param(\"rendering\", \"wireframe\");
-        msketch_param(\"molbg\", \"#ffffff\");
-        msketch_end();
-        </script> ";
-
         // Output the marvin applet.
         $mform->addElement('html', html_writer::start_tag('div', array('style' => 'width:650px;', 'id' => 'appletdiv')));
         $mform->addElement('html', html_writer::start_tag('div', array('style' => 'float: right;font-style: italic ;')));
@@ -68,26 +56,22 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
         $mform->addElement('html', html_writer::empty_tag('br'));
         $mform->addElement('html', html_writer::end_tag('small'));
         $mform->addElement('html', html_writer::end_tag('div'));
-       // $mform->addElement('html', $easyoselectbuildstring);
         $mform->addElement('html', html_writer::end_tag('div'));
 
         // Add applet to page
         $jsmodule = array(
-            'name'     => 'qtype_easyomech',
-            'fullpath' => '/question/type/easyomech/easyomech_script.js',
+            'name'     => 'qtype_easyoselect',
+            'fullpath' => '/question/type/easyoselect/easyoselect_script.js',
             'requires' => array(),
             'strings' => array(
-                array('enablejava', 'qtype_easyomech')
+                array('enablejava', 'qtype_easyoselect')
             )
         );
 
-        $PAGE->requires->js_init_call('M.qtype_easyomech.insert_applet',
+        $PAGE->requires->js_init_call('M.qtype_easyoselect.insert_applet',
                                       array(),
                                       true,
                                       $jsmodule);
-
-
-
 
         // Add structure to applet.
         $jsmodule = array(
@@ -108,7 +92,7 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
                 question_bank::fraction_options());
 
         $this->add_interactive_settings();
-        $PAGE->requires->js_init_call('M.qtype_easyomech.init_getanswerstring', array($CFG->version));
+        $PAGE->requires->js_init_call('M.qtype_easyoselect.init_getanswerstring', array($CFG->version));
     }
 
     protected function get_per_answer_fields($mform, $label, $gradeoptions,
@@ -119,7 +103,6 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
 
         // Construct the insert button.
         $scriptattrs = 'class = id_insert';
-//        $scriptattrs = 'onClick = "getSmilesEdit(this.name, \'mrv:S\')"';
         $insertbutton = $mform->createElement('button', 'insert',
         get_string('insertfromeditor', 'qtype_easyoselect'), $scriptattrs);
         $insertbutton = $mform->createElement('button', 'insert', get_string('insertfromeditor', 'qtype_easyomech'), $scriptattrs);
