@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2013093000;
-$plugin->requires  = 2011102700;
+$plugin->requires  = 2012062500;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_easyoselect';
 $plugin->maturity  = MATURITY_STABLE;
