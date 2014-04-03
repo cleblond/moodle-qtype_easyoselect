@@ -69,7 +69,7 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
         );
 
         $PAGE->requires->js_init_call('M.qtype_easyoselect.insert_applet',
-                                      array(),
+                                      array($CFG->wwwroot),
                                       true,
                                       $jsmodule);
 

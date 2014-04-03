@@ -4,42 +4,23 @@
 
 M.qtype_easyoselect={
     insert_easyoselect_applet : function(Y, toreplaceid, appletid, name, topnode,
-                                                                    appleturl, feedback, readonly, appletoptions, stripped_answer_id){
-        var javaparams = ['mol', Y.one(topnode+' input.mol').get('value')];   ///CRL changed smiles to mol
-//        var javaparams = new Array();
+                                                                    appleturl, feedback, readonly, appletoptions, stripped_answer_id, moodleurl){
+        var javaparams = ['mol', Y.one(topnode+' input.mol').get('value')];
         var easyoselectoptions = new Array();
-
-
-	
-
-
 
         if (appletoptions) {
             easyoselectoptions[easyoselectoptions.length] = appletoptions;
-
-
-
         }
         if (readonly) {
-//            easyoselectoptions[easyoselectoptions.length] = "false";  ///crl changed depict to true
-//	     javaparams.menubar = "false";	    
-//            easyoselectoptions[easyoselectoptions.length + 1] = "false";  ///crl changed depict to true
-//	    easyoselectoptions[easyoselectoptions.length] = Y.one(topnode+' input.mol').get('value');  ///crl changed depict to true
-	    easyoselectoptions[easyoselectoptions.length] = Y.one(topnode+' input.mol').get('value');  ///crl 
-
-
-
-
+	    easyoselectoptions[easyoselectoptions.length] = Y.one(topnode+' input.mol').get('value');
         }
         if (easyoselectoptions.length !== 0) {
-//            javaparams[javaparams.length] = "viewonly";   ///crl changes options to viewonly
-//            javaparams[javaparams.length+1] = "menubar";   ///crl changes options to viewonly 
-  	    javaparams[javaparams.length] = "mrv";  ///added by crl
+  	    javaparams[javaparams.length] = "mrv";
 
             javaparams[javaparams.length] = easyoselectoptions.join(',');
         }
         if (!this.show_java(toreplaceid, appletid, name, appleturl,
-                                                            600, 460, 'chemaxon.marvin.applet.JMSketchLaunch', javaparams, stripped_answer_id)) {
+                                                            600, 460, 'chemaxon.marvin.applet.JMSketchLaunch', javaparams, stripped_answer_id, moodleurl)) {
 
 
 
@@ -47,31 +28,13 @@ M.qtype_easyoselect={
 
 
         } else {
-//		window.alert('Message goes here');
-//		           var s = 'CC';
-//		var s = document.getElementById(stripped_answer_id).value;
-//		document.Msketch.setMol(s);
-//worked		document.MSketch.setMol(s, 'mrv');
-//		this.find_java_applet(name).setMol(s, 'mrv');
-//		setTimeout(function() {document.getElementById(appletid).setMol(s, 'mrv');},200)
 		var inputdiv = Y.one(topnode);
             	inputdiv.ancestor('form').on('submit', function (){
-//		var s = this.find_java_applet(name).getMol("mol");
-/*
-//    var s = document.MSketch.getMol(format);
-                Y.one(topnode+' input.answer').set('value', this.find_java_applet(name).smiles()); */
                 Y.one(topnode+' input.answer').set('value', this.find_java_applet(name).getMol("mrv:S"));
-
-//		 Y.one(topnode+' input.answer').set('value', this.find_java_applet(name).getMol("smiles"));
-                 
-//		var s = this.find_java_applet(name).getMol("mol");
-//		s = local2unix(s);
-
 		var strvalue = "" + this.find_java_applet(name).getMol("mrv:S");
 		var v = navigator.appVersion;
 		if(v.indexOf("Win") > 0) {
 			strvalue = strvalue.split("\r\n").join("\n"); // To avoid "\r\r\n"
-		//return strvalue.split("\n").join("\r\n");
 		} else { // Unix
 		//	return strvalue;
 		}
@@ -80,41 +43,12 @@ M.qtype_easyoselect={
 
                  Y.one(topnode+' input.mol').set('value', strvalue);
 
-
-//		var s = this.find_java_applet(name).getMol("mol");
-//		s = unix2local(s); // Convert "\n" to local line separator
-//                Y.one(topnode+' input.easyoselect').set('value', s);
-//                Y.one(topnode+' input.mol').set('value', s)
             }, this);
         }
     },
 
 
-
-/*
-local2unix : function (s) {
-    var strvalue = "" + s;
-    var v = navigator.appVersion;
-    if(v.indexOf("Win") > 0) {
-        return strvalue.split("\r").join("");
-    } else if(v.indexOf("Mac") > 0) { // Macintosh
-        return strvalue.split("\r").join("\n");
-    } else { // Unix
-        return strvalue;
-    }
-}
-*/
-
-
-
-////show arrow orders
-
     show_arroworder : function () {
-
-	//var xml = parseXml("<foo>Stuff</foo>");
-	//alert(xml.documentElement.nodeName);
-
-
 
 	text="<bookstore>"
 	text=text+"<book>";
@@ -124,10 +58,7 @@ local2unix : function (s) {
 	text=text+"</book>";
 	text=text+"</bookstore>";
 
-
 	xmlDoc=this.loadXMLString(text);
-
-//	xmlDoc=loadXMLDoc("books.xml");
 
 	y=xmlDoc.getElementsByTagName("book")[0];
 
@@ -160,12 +91,6 @@ local2unix : function (s) {
 
 
 
-
-
-
-
-
-
     show_error : function (Y, topnode) {
         var errormessage = '<span class ="javawarning">'
             +M.util.get_string('enablejava', 'qtype_easyoselect')+
@@ -189,7 +114,7 @@ local2unix : function (s) {
     doneie6focus : 0,
     doneie6focusapplets : 0,
  // Note: This method is also called from mod/audiorecorder
-    show_java : function (id, appletid, name, java, width, height, appletclass, javavars, stripped_answer_id) {
+    show_java : function (id, appletid, name, java, width, height, appletclass, javavars, stripped_answer_id, moodleurl) {
         if (this.javainstalled == -99 ) {
             this.javainstalled = PluginDetect.isMinVersion(
                 'Java', 1.5, 'plugindetect.getjavainfo.jar', [0, 2, 0]) == 1;
@@ -208,23 +133,12 @@ local2unix : function (s) {
         newApplet.tabIndex = -1; // Not directly tabbable
         newApplet.mayScript = true;     
 	newApplet.id = appletid;
-//	newApplet.setAttribute('codebase','../../../easyoselect');
 	newApplet.setAttribute('codebase','/marvin');
-//	newApplet.setAttribute('codebase_lookup','false');
-//	newApplet.setAttribute('NAME','MSketch');
-//	newApplet.setAttribute('menubar','false');
-//	newApplet.setAttribute('menuconfig','../eolms/question/type/easyoselect/customization_easyoselect.xml');
-//	newApplet.setAttribute('bondDraggedAlong','false');
-//	newApplet.setAttribute('chargeWithCircle','true');
-//	newApplet.setAttribute('defaultTool','lassoSelect');
-//	newApplet.setAttribute('mol', document.getElementById(stripped_answer_id).value);
-
 
 	var param=document.createElement('param');
 	param.name='menuconfig';
-        param.value='../eolms/question/type/easyoselect/customization_easyoselect.xml';
+        param.value = moodleurl + '/question/type/easyoselect/customization_easyoselect.xml';
 	newApplet.appendChild(param);
-
 
 	var param=document.createElement('param');
 	param.name='chargeWithCircle';
@@ -236,12 +150,10 @@ local2unix : function (s) {
         param.value='false';
 	newApplet.appendChild(param);
 
-
 	var param=document.createElement('param');
 	param.name='menubar';
         param.value='false';
 	newApplet.appendChild(param);
-
 
 	var param=document.createElement('param');
 	param.name='implicitH';
@@ -252,12 +164,10 @@ local2unix : function (s) {
 	param.setAttribute('bondDraggedAlong','false');
 	newApplet.appendChild(param);
 
-
 	var param=document.createElement('param');
 	param.name='defaultTool';
         param.value='lassoSelect';
 	newApplet.appendChild(param);
-
 
         // In case applet supports the focushack system, we
         // pass in its id as a parameter.
@@ -269,11 +179,6 @@ local2unix : function (s) {
             param.value=javavars[i+1];
             newApplet.appendChild(param);
         }
-/*            param.name='viewonly';
-            param.value='false';
-	    param.name='menubar';
-            param.value='false';
-*/
 	    param.name='mol';
             param.value = encodeURIComponent(document.getElementById(stripped_answer_id).value);
 
