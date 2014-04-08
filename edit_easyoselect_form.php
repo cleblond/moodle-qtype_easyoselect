@@ -51,6 +51,9 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
         $mform->addElement('html', html_writer::end_tag('div'));
         $mform->addElement('html', html_writer::end_tag('div'));
 
+        $marvinconfig = get_config('qtype_easyoselect_options');
+	$marvinpath = $marvinconfig->path;
+
         // Add applet to page
         $jsmodule = array(
             'name'     => 'qtype_easyoselect',
@@ -62,7 +65,7 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
         );
 
         $PAGE->requires->js_init_call('M.qtype_easyoselect.insert_applet',
-                                      array($CFG->wwwroot),
+                                      array($CFG->wwwroot, $marvinpath),
                                       true,
                                       $jsmodule);
 

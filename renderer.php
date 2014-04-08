@@ -149,6 +149,9 @@ class qtype_easyoselect_renderer extends qtype_renderer {
     protected function require_js($toreplaceid, question_attempt $qa, $readonly, $correctness, $appletoptions) {
         global $PAGE, $CFG;
 
+        $marvinconfig = get_config('qtype_easyoselect_options');
+	$marvinpath = $marvinconfig->path;
+
         $jsmodule = array(
             'name'     => 'qtype_easyoselect',
             'fullpath' => '/question/type/easyoselect/module.js',
@@ -179,7 +182,8 @@ class qtype_easyoselect_renderer extends qtype_renderer {
                                             $readonly,
                                             $appletoptions,
                                             $strippedanswerid,
-                                            $CFG->wwwroot),
+                                            $CFG->wwwroot,
+                                            $marvinpath),
                                       false,
                                       $jsmodule);
 

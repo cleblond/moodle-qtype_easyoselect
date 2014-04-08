@@ -4,7 +4,7 @@
 
 M.qtype_easyoselect={
     insert_easyoselect_applet : function(Y, toreplaceid, appletid, name, topnode,
-                                                                    appleturl, feedback, readonly, appletoptions, stripped_answer_id, moodleurl){
+                                                                    appleturl, feedback, readonly, appletoptions, stripped_answer_id, moodleurl, marvinpath){
         var javaparams = ['mol', Y.one(topnode+' input.mol').get('value')];
         var easyoselectoptions = new Array();
 
@@ -20,7 +20,7 @@ M.qtype_easyoselect={
             javaparams[javaparams.length] = easyoselectoptions.join(',');
         }
         if (!this.show_java(toreplaceid, appletid, name, appleturl,
-                                                            600, 460, 'chemaxon.marvin.applet.JMSketchLaunch', javaparams, stripped_answer_id, moodleurl)) {
+                                                            600, 460, 'chemaxon.marvin.applet.JMSketchLaunch', javaparams, stripped_answer_id, moodleurl, marvinpath)) {
 
 
 
@@ -114,7 +114,7 @@ M.qtype_easyoselect={
     doneie6focus : 0,
     doneie6focusapplets : 0,
  // Note: This method is also called from mod/audiorecorder
-    show_java : function (id, appletid, name, java, width, height, appletclass, javavars, stripped_answer_id, moodleurl) {
+    show_java : function (id, appletid, name, java, width, height, appletclass, javavars, stripped_answer_id, moodleurl, marvinpath) {
         if (this.javainstalled == -99 ) {
             this.javainstalled = PluginDetect.isMinVersion(
                 'Java', 1.5, 'plugindetect.getjavainfo.jar', [0, 2, 0]) == 1;
@@ -133,7 +133,7 @@ M.qtype_easyoselect={
         newApplet.tabIndex = -1; // Not directly tabbable
         newApplet.mayScript = true;     
 	newApplet.id = appletid;
-	newApplet.setAttribute('codebase','/marvin');
+	newApplet.setAttribute('codebase', marvinpath);
 
 	var param=document.createElement('param');
 	param.name='menuconfig';
