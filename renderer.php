@@ -115,7 +115,7 @@ class qtype_easyoselect_renderer extends qtype_renderer {
                                     $this->hidden_fields($qa),
                                     array('class' => 'inputcontrol'));
 
-        $this->require_js($toreplaceid, $qa, $options->readonly, $options->correctness, $CFG->qtype_easyoselect_options);
+        $this->require_js($toreplaceid, $qa, $options->readonly, $options->correctness);
 
         return $result;
     }
@@ -146,7 +146,7 @@ class qtype_easyoselect_renderer extends qtype_renderer {
         return $dom->saveXML();
     }
 
-    protected function require_js($toreplaceid, question_attempt $qa, $readonly, $correctness, $appletoptions) {
+    protected function require_js($toreplaceid, question_attempt $qa, $readonly, $correctness) {
         global $PAGE, $CFG;
 
         $marvinconfig = get_config('qtype_easyoselect_options');
@@ -180,7 +180,6 @@ class qtype_easyoselect_renderer extends qtype_renderer {
                                             $appleturl->out(),
                                             $feedbackimage,
                                             $readonly,
-                                            $appletoptions,
                                             $strippedanswerid,
                                             $CFG->wwwroot,
                                             $marvinpath),

@@ -4,13 +4,10 @@
 
 M.qtype_easyoselect={
     insert_easyoselect_applet : function(Y, toreplaceid, appletid, name, topnode,
-                                                                    appleturl, feedback, readonly, appletoptions, stripped_answer_id, moodleurl, marvinpath){
+                                                                    appleturl, feedback, readonly, stripped_answer_id, moodleurl, marvinpath){
         var javaparams = ['mol', Y.one(topnode+' input.mol').get('value')];
         var easyoselectoptions = new Array();
 
-        if (appletoptions) {
-            easyoselectoptions[easyoselectoptions.length] = appletoptions;
-        }
         if (readonly) {
 	    easyoselectoptions[easyoselectoptions.length] = Y.one(topnode+' input.mol').get('value');
         }
