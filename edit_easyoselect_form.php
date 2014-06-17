@@ -32,7 +32,6 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
 
     protected function definition_inner($mform) {
         global $PAGE, $CFG;
-        $PAGE->requires->js('/question/type/easyoselect/easyoselect_script.js');
         $PAGE->requires->css('/question/type/easyoselect/easyoselect_styles.css');
 
         $mform->addElement('static', 'answersinstruct',
@@ -55,34 +54,14 @@ class qtype_easyoselect_edit_form extends qtype_shortanswer_edit_form {
 	$marvinpath = $marvinconfig->path;
 
         // Add applet to page
-        $jsmodule = array(
-            'name'     => 'qtype_easyoselect',
-            'fullpath' => '/question/type/easyoselect/easyoselect_script.js',
-            'requires' => array(),
-            'strings' => array(
-                array('enablejava', 'qtype_easyoselect')
-            )
-        );
-
         $PAGE->requires->js_init_call('M.qtype_easyoselect.insert_applet',
                                       array($CFG->wwwroot, $marvinpath),
-                                      true,
-                                      $jsmodule);
+                                      true);
 
         // Add structure to applet.
-        $jsmodule = array(
-            'name'     => 'qtype_easyoselect',
-            'fullpath' => '/question/type/easyoselect/easyoselect_script.js',
-            'requires' => array(),
-            'strings' => array(
-                array('enablejava', 'qtype_easyoselect')
-            )
-        );
-
         $PAGE->requires->js_init_call('M.qtype_easyoselect.insert_structure_into_applet',
                                       array(),
-                                      true,
-                                      $jsmodule);
+                                      true);
 
         $this->add_per_answer_fields($mform, get_string('answerno', 'qtype_easyoselect', '{no}'),
                 question_bank::fraction_options());

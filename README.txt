@@ -1,4 +1,4 @@
-  Moodle 2.3 plugin: EasyOChem Marvinsketch Selection question type
+  Moodle 2.3+ plugin: EasyOChem Marvinsketch Selection question type
 
 INSTALLATION:
 
@@ -6,7 +6,7 @@ This will NOT work with Moodle 2.0 or older, since it uses the new
 question API implemented in Moodle 2.1.
 
 This is a Moodle question type. It should come as a self-contained 
-"easyomech" folder which should be placed inside the "question/type" folder
+"easyoselect" folder which should be placed inside the "question/type" folder
 which already exists on your Moodle web server.
 
 Once you have done that, visit your Moodle admin page - the database 
